@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ML Deployment</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&display=swap" rel="stylesheet">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	<main>
+
+		<nav>
+			<h1>Student Performance Prediction.</h1>
+		</nav>
+
+		<sub>
+		<section class= "lgrid">
+			
+			<div class="minim-boxtop-left">
+				<!-- TOP OF BOX CSS -->
+				<h1>Enter parameters.</h1>
+			</div>
+			<!--  -->
+			<div class= "lgrid-left">
+				<span class="left_inline pad_elements">Gender:</span>
+				<label class="left_inline pad_elements" for="lunch">Meal Programs:</label>
+				<label class="left_inline pad_elements" for="test">Test Preparation:</label>
+				<label class="left_inline pad_elements" for="read">Reading Score:</label>
+				<label class="left_inline pad_elements" for="write">Writing Score:</label>
+				</div>
+				<!--  -->
+
+			<div class="minim-boxtop-right">
+				<!-- TOP OF BOX CSS -->
+			</div>
+
+			<div class= "lgrid-right">
+			<div>
+			<form class="form-text" action="{{ url_for('predict')}}" method="post" autocomplete="off">
+		    	
+		    	<div class="entries pad_elements">
+		    	
+		    	<label for= "male">Male</label>
+		    	<input type="radio" id="male" name="gender" value="male" checked>
+
+		    	<label for= "female">Female</label>
+		    	<input type="radio" id="female" name="gender" value="female" >
+				</div>
+
+				
+
+				<div class="entries pad_elements">
+				
+				<select name="lunch" id="lunch">
+				    <option value="standard">Standard</option>
+				    <option value="free/reduced">Free/reduced</option>
+				</select>
+				</div>
+
+				<div class="entries pad_elements">
+				
+				<select name="test" id="test">
+				    <option value="completed">Completed</option>
+				    <option value="none">None</option>
+				</select>
+				</div>
+
+				<div class="entries pad_elements">
+				
+				<input type="text" name="read" placeholder="Reading Score" required>
+				</div>
+
+				<div class="entries pad_elements">
+				
+				<input type="text" name="write" placeholder="Writing Score" required>
+				</div>
+		        <button class= "button_style" type="submit">Predict</button>
+		    </form>
+			</div>
+		</div>
+		
+		</section>
+			
+		<section class="rgrid">
+			<div class="minim-boxtop">
+				<!-- TOP OF BOX CSS -->
+				<h1>Prediction.</h1>
+			</div>
+			
+			<div class="rgrid_content">
+				<span class=".pred">
+					{{ prediction_text }}
+				</span>
+			</div>
+		</section>
+		</sub>
+	
+		<div class= "below-content">
+			<div class="minim-boxtop">
+				<!-- TOP OF BOX CSS -->
+				<h1>Data Analysis.</h1>
+			</div>
+			
+			<div class= "eda-data">
+				<p>
+					The correlation heatmap shows a high degree of correlation between reading and writing scores and their respective math scores. 
+				</p>
+				<!-- <img src = "D:\Projects\Web\Web_Deployment\Images\corr_heatmap.png" style="width:400;height:400px;"> -->
+				<img src = "{{url_for('static', filename='corr_heatmap.png')}}" style="width:400;height:400px;">
+				<p>
+					Male students have the higher mean and median value in terms of math scores as compared to female students, but interestingly the female students outperform them in terms of reading and writing scores. 
+				</p>
+				<!-- <img src = "D:\Projects\Web\Web_Deployment\Images\gender_mean.png" > -->
+				<img src = "{{url_for('static', filename='gender_mean.png')}}" >
+
+				<p>
+					Looking at the provided graph we can make certain inferences:
+				</p>
+				<!-- <img src = "D:\Projects\Web\Web_Deployment\Images\hue_mathscore.png" style="width:500;height:500px;"> -->
+				<img src = "{{url_for('static', filename='hue_mathscore.png')}}" style="width:400;height:400px;">
+
+				<ul>
+					<li>As discussed before, we notice that men tend to outperform women in terms of math scores</li>
+					<li>The students with the free/reduced lunch program on an average tended to perform worse than their peers with the standard lunch program.</li>
+				</ul>
+
+				<div class="img_style">
+				<!-- <img src = "D:\Projects\Web\Web_Deployment\Images\hue_readingscore.png" style="width:500;height:500px;"> -->
+				<img src = "{{url_for('static', filename='hue_readingscore.png')}}" style="width:400;height:400px;">
+
+				<!-- <img src = "D:\Projects\Web\Web_Deployment\Images\hue_writingscore.png" style="width:500;height:500px;"> -->
+				<img src = "{{url_for('static', filename='hue_writingscore.png')}}" style="width:400;height:400px;">
+
+				</div>
+
+				<ul>
+					<li>The women performed better on reading and writing scores.</li>
+					<li>The students with the free/reduced lunch program on an average tended to perform worse than their peers with the standard lunch program.</li>
+					<li>Those who completed the preparation performed better on writing tasks by a greater extent than on reading tasks</li>
+				</ul>
+				
+				<p>
+					From the observattion the features that were selected for creating the model are:
+					<ol>
+						<li>Gender</li>
+						<li>Meal Program</li>
+						<li>Test Preparation</li>
+						<li>Reading Score</li>
+						<li>Writing Score</li>
+					</ol>
+
+					The removed features to reduce overhead are:
+					<ul>
+						<li>Race/ethinicity</li>
+						<li>Parental level of education</li>
+					</ul>
+				</p>
+
+				<p>
+					The random forest model was chosen for this regression problem of predicting the math score. An r2 score of 83% was acheived.
+				</p>
+			</div>
+		</div>
+		<footer>
+			<p>	&#169; Deepak Haridas</p>
+		</footer>
+	</main>
+</body>
+</html>
