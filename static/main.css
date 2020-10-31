@@ -4,11 +4,12 @@ nav
 	font-family: 'Libre Baskerville', serif;
 }
 
-body
+body, html
 {
 	background-color: #5CD1FF;
 	font-family: 'Roboto', sans-serif;
 	font-size: 20px;
+    max-width: 100%;
 }
 
 main
